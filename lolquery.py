@@ -11,6 +11,18 @@ def insertPatch(patch_id, patch_date):
     cur.execute('INSERT INTO Patch (patch_id, patch_date) VALUES (%s, %s)', (patch_id, patch_date))
     conn.commit()
 
+def insertChampion(character_name, date_added):
+  cur.execute('SELECT * FROM Champion WHERE character_name = %s AND date_added = %s',(character_name, date_added))
+  if (cur.rowcount == 0):
+    cur.execute('INSERT INTO Champion (character_name, date_added) VALUES (%s, %s)', (character_name, date_added))
+    conn.commit()
+
+def insertStatistic(stat_id, patch_id, stat, character_name, difference, previous_stat)
+  cur.execute('SELECT * FROM Statistic WHERE stat_id = %s AND patch_id = %s AND stat = %s AND character_name = %s AND difference = %s AND previous_stat = %s',(stat_id, patch_id, stat, character_name, difference, previous_stat))
+  if (cur.rowcount == 0):
+    cur.execute('INSERT INTO Statistic (stat_id, patch_id, stat, character_name, difference, previous_stat) VALUES (%s, %s, %s, %s, %s, %s)', (stat_id, patch_id, stat, character_name, difference, previous_stat))
+    conn.commit()
+
 
 
 
