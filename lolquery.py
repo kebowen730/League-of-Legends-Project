@@ -1,3 +1,51 @@
+#DATABASE
+
+
+#CREATE DATABASE League;
+
+
+#TABLES
+
+
+#CREATE TABLE Patch
+#( patch_id VARCHAR(20) NOT NULL,
+ # patch_date DATE NOT NULL,
+ # CONSTRAINT pk_patch PRIMARY KEY (patch_id)
+#);
+
+
+#CREATE TABLE Champion
+#( character_name VARCHAR(40) NOT NULL,
+ # date_added DATE NOT NULL,
+ # CONSTRAINT pk_character PRIMARY KEY (character_name)
+#);
+
+
+#CREATE TABLE Statistic
+#( stat_id VARCHAR(40) NOT NULL,
+ # patch_id VARCHAR(20) NOT NULL,
+ # stat VARCHAR(50),
+ # character_name VARCHAR(40) NOT NULL,
+ # difference VARCHAR(50),
+ # previous_stat VARCHAR(40),
+ # CONSTRAINT pk_stat PRIMARY KEY (stat_id),
+ # CONSTRAINT fk_patch FOREIGN KEY (patch_id)
+ #   REFERENCES Patch (patch_id),
+ # CONSTRAINT fk_character FOREIGN KEY (character_name)
+ #   REFERENCES Champion (character_name),
+ # CONSTRAINT fk_previous FOREIGN KEY (previous_stat)
+ #   REFERENCES Statistic (stat_id)
+#);
+
+
+
+
+
+
+
+
+
+
 import pymysql
 
 conn = pymysql.connect(host = '127.0.0.1', user = 'lrngsql', passwd = 'rdg935', db = 'mysql')
