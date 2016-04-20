@@ -52,7 +52,7 @@ conn = pymysql.connect(host = '127.0.0.1', user = 'lrngsql', passwd = 'rdg935', 
 cur = conn.cursor()
 cur.execute('USE League')
 
-
+'''
 def insertPatch(patch_id, patch_date):
   cur.execute('SELECT * FROM Patch WHERE patch_id = %s AND patch_date = %s',(patch_id, patch_date))
   if (cur.rowcount == 0):
@@ -70,7 +70,7 @@ def insertStatistic(stat_id, patch_id, stat, character_name, difference, previou
   if (cur.rowcount == 0):
     cur.execute('INSERT INTO Statistic (stat_id, patch_id, stat, character_name, difference, previous_stat) VALUES (%s, %s, %s, %s, %s, %s)', (stat_id, patch_id, stat, character_name, difference, previous_stat))
     conn.commit()
-
+'''
 
 
 
@@ -90,7 +90,7 @@ def char_date(lower, upper):
   print(cur.fetchall())
 
 def stat_patch(p_id):
-  cur.execute('SELECT stat FROM Statistic WHERE patch_id = %s', (p_id))
+  cur.execute('SELECT character_name, stat FROM Statistic WHERE patch_id = %s', (p_id))
   print(cur.fetchall())
 
 def find_charchange(name, change):
