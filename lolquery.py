@@ -100,6 +100,14 @@ def find_charchange(name, change):
 def find_change(change):
   cur.execute('SELECT character_name, patch_id FROM Statistic wHERE stat = %s ORDER BY patch_id', (change))
   print(cur.fetchall())
+  
+def show_patch():
+  cur.execute('SELECT * FROM Patch ORDER BY patch_date')
+  print(cur.fetchall())
+
+def show_champion():
+  cur.execute('SELECT * FROM Champion ORDER BY character_name')
+  print(cur.fetchall())
 
 def main():
 
@@ -109,6 +117,8 @@ def main():
   print('Enter 4 to view all statistic changes from a specific patch\n')
   print('Enter 5 to find a patch where a given change to a certain champion occurred\n')
   print('Enter 6 to for a given stat change, find all champions that received the change and the patch in which it occurred\n')
+  print('Enter 7 to show the Patch Table\n')
+  print('Enter 8 to show the Champion Table\n')
   print('Enter 0 to quit\n')
 
   prompt = eval(input('Enter desired query: '))
@@ -139,7 +149,13 @@ def main():
     if (prompt == 6):
       change = input('Enter desired change: ')
       find_change(change)
+      
+    if (prompt == 7):
+      show_patch()
 
+    if (prompt == 8):
+      show_champion()
+      
     prompt = eval(input('Enter desired query: '))
 
 
