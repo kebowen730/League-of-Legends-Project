@@ -78,36 +78,56 @@ def insertStatistic(stat_id, patch_id, stat, character_name, difference, previou
 def stat_hist(name):
 
   cur.execute('SELECT patch_id, stat FROM Statistic WHERE character_name = %s ORDER BY patch_id', (name))
-  print(cur.fetchall())
+  for i in range(0, (cur.rowcount)):
+    print(cur.fetchone())
+  if (cur.rowcount == 0):
+    print('None')
 
 def patch_date(lower, upper):
 
   cur.execute('SELECT patch_id, patch_date FROM Patch WHERE patch_date >= %s AND patch_date <= %s ORDER BY patch_date', (lower, upper))
-  print(cur.fetchall())
+  for i in range(0, (cur.rowcount)):
+    print(cur.fetchone())
+  if (cur.rowcount == 0):
+    print('None')
 
 def char_date(lower, upper):
   cur.execute('SELECT character_name FROM Champion WHERE date_added >= %s AND date_added <= %s ORDER BY date_added', (lower, upper))
-  print(cur.fetchall())
+  for i in range(0, (cur.rowcount)):
+    print(cur.fetchone())
+  if (cur.rowcount == 0):
+    print('None')
 
 def stat_patch(p_id):
   cur.execute('SELECT character_name, stat FROM Statistic WHERE patch_id = %s', (p_id))
-  print(cur.fetchall())
+  for i in range(0, (cur.rowcount)):
+    print(cur.fetchone())
+  if (cur.rowcount == 0):
+    print('None')
 
 def find_charchange(name, change):
   cur.execute('SELECT patch_id FROM Statistic WHERE character_name = %s AND stat = %s', (name, change))
-  print(cur.fetchall())
+  for i in range(0, (cur.rowcount)):
+    print(cur.fetchone())
+  if (cur.rowcount == 0):
+    print('None')
 
 def find_change(change):
   cur.execute('SELECT character_name, patch_id FROM Statistic wHERE stat = %s ORDER BY patch_id', (change))
-  print(cur.fetchall())
-  
+  for i in range(0, (cur.rowcount)):
+    print(cur.fetchone())
+  if (cur.rowcount == 0):
+    print('None')
+
 def show_patch():
   cur.execute('SELECT * FROM Patch ORDER BY patch_date')
-  print(cur.fetchall())
+  for i in range(0, (cur.rowcount)):
+    print(cur.fetchone())
 
 def show_champion():
   cur.execute('SELECT * FROM Champion ORDER BY character_name')
-  print(cur.fetchall())
+  for i in range(0, (cur.rowcount)):
+    print(cur.fetchone())
 
 def main():
 
