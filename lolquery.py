@@ -26,15 +26,12 @@
  # patch_id VARCHAR(20) NOT NULL,
  # stat VARCHAR(50),
  # character_name VARCHAR(40) NOT NULL,
- # difference VARCHAR(50),
  # previous_stat VARCHAR(40),
- # CONSTRAINT pk_stat PRIMARY KEY (stat_id),
+ # CONSTRAINT pk_stat PRIMARY KEY (stat_id, patch_id, character_name),
  # CONSTRAINT fk_patch FOREIGN KEY (patch_id)
  #   REFERENCES Patch (patch_id),
  # CONSTRAINT fk_character FOREIGN KEY (character_name)
  #   REFERENCES Champion (character_name),
- # CONSTRAINT fk_previous FOREIGN KEY (previous_stat)
- #   REFERENCES Statistic (stat_id)
 #);
 
 
