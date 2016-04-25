@@ -1,15 +1,10 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from ChampStat import ChampStat
-from LinkedList import LinkedList
-#def getFromTable(site,table,tag,attr)
-def getStats(link):
-    soup=BeautifulSoup(link)
-    stats=[]
-    champ=0
-    stats=soup.findAll('li')
+
+
     
-def main():
+def scrape():
     html=urlopen('http://leagueoflegends.wikia.com/wiki/Patch')
     soup=BeautifulSoup(html,'lxml')
     site='http://leagueoflegends.wikia.com/wiki/'
@@ -25,35 +20,62 @@ def main():
             continue
         if title[0]=='V' and title[1] in versions:
             links.append(title)
-    stats=LinkedList()
+    stats=[]
     for url in links:
         html=urlopen(site+url)
         patch=BeautifulSoup(html,'lxml')
         stat_tags=[]
-        li_tags=patch.findAll('li')
+        li_tags=patch.findAll('li') 
         vers='6'
+        
+        
+        release_table=patch.find('table')
+        
+        tr=release_table.findAll('tr')
+        
+        try:
+            date=tr[2].td.next_sibling.text.strip()
+        except AttributeError:
+            try:
+                date=tr[1].td.next_sibling.text.strip()
+            except AttributeError:
+                date=tr[3].td.next_sibling.text.strip()
+       
+        
         for tag in li_tags:
-            if 'Stats' in tag.text and tag.span==None and tag.ul!=None and tag.children!=None :
+            
+            
+            if 'Stats' == tag.text[1:6] and tag.span==None and tag.ul!=None and tag.children!=None :
+                name =tag.parent.previous.previous.previous
+                
+               
                 for i in tag.ul.children:
-                   
+                    
                     content=i.text[1:]
+                    if ('autoattack' or 'reduction') in content:
+                        continue
+                    
                     if content[0] not in '0123456789':
                         vers=''
-                        for i in range(len(url)-1,-1,-1):
+                        for i in range(len(url)-1,-1,-1):#works backwards from end of url to get the version
                             if url[i]=='V':
                                 break
                             
                             vers=url[i]+vers
-                      
-                        stat=ChampStat('Rusty',content,vers)
-                        stats.addInOrder(stat)
-                        #print(content)
+                        
+                        
+                        if vers=='4.01':
+                            break
+                        
+                        try:    
+                            stat=ChampStat(name,content,vers,date)
+                        except IndexError:
+                            continue
+                        stats.append(stat)
+                        
                 
                 print(site+url)
                 stat_tags.append(tag)
-        if int(vers[0])<4:
-            break
+                
 
-                 
-        #break
-main()
+    return stats
