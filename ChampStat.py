@@ -1,8 +1,26 @@
+def formatDate(date):
+    date=date.split()
+    months=['January','February','March','April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    month=str(months.index(date[0])+1)+'-'
+    year=date[2]+'-'
+    day=''
+    for i in date[1]:
+        if i.isnumeric():
+            day+=i
+    if len(month)==2:
+        month='0'+month
+    if len(day)==1:
+        day='0'+day
+    return year+month+day
+    
+    
 class ChampStat(object):
-    def __init__(self,champ,text,version):
+    def __init__(self,champ,text,version,date):
+        
+        self.date=formatDate(date)
         self.type=''
         lttr=''
-        change=''
+        
         tag=False
        # for i in text:
         #    if i in ('<','>'):
@@ -11,17 +29,28 @@ class ChampStat(object):
  #           if tag==True:
   #              continue
    #         change+=i
-           
+        self.champ=champ 
+        
+        stop_idx=0
+        change=text.strip('.\n')
         for i in range(len(change)):
-            if change[i:i+4] not in (' inc',' red'):
+            if change[i:i+4] not in (' inc',' red',' dec'):
                self.type+=change[i]
+               
             else:
-                change=change[i+1:]
+                stop_idx=i
                 break
+        change=change[stop_idx:]
+        print(change)
+        jump=0
         if 'reduced' in change:
-            change=change[11:]
+            change=change[9:]
         else:
-            change=change[13:]
+            change=change[11:]
+        if change[0]=='f':
+            change=change[5:]
+        else:
+            change=change[3:]
         self.previous=''
         self.val=''
         
@@ -32,11 +61,33 @@ class ChampStat(object):
                 break
             else:
                 self.val+=lttr
-        self.previous=change.strip('.')
-        
-        self.vers=[int(i) for i in version.split('.')]
         
         
+        self.vers=[]
+        for i in version.split('.'):
+            if not i.isnumeric():
+                end=''
+               # print(i)
+                
+                for j in i:
+                    if j in ('(',')'):
+                        continue
+                    #print(j,end) 
+                    if j.isalpha():
+                        self.vers.append(int(end))
+                      
+                        end=''
+                        
+                    
+                    end+=j 
+                #print(end+'a')    
+                self.vers.append(end)    
+            else:
+                self.vers.append(int(i))
+        if (self.val)=='':
+            print('broken')
+        #self.val=int(self.val)
+        #self.previous=int(self.previous)
     def __eq__(self,other):
         
         return self.vers==other.vers
@@ -96,13 +147,26 @@ class ChampStat(object):
         return svl>=ovl
     def __str__(self):
         return str(self.vers)
+    #patch_id=patch number, champion name, number
+    #stat,patch,difference,previous
+    def getData(self):
+        data={}
+        data['stat_id']=self.type
+        data['champ_id']=self.champ
+        data['stat']=self.val
         
+        vers=self.vers
+        patch_id='V'+str(vers[0])
+        for i in range(1,len(vers)):
+            x=vers[i]
+            if isinstance(vers[i],int):
+                patch_id+='.'+str(vers[i])
+            else:
+                patch_id+=vers[i]
+                
+        data['patch_id']=patch_id
+        data['date']=self.date
         
-        
-        
-        
-        
-        
-        
+        return data
         
         
