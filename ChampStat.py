@@ -21,14 +21,8 @@ class ChampStat(object):
         self.type=''
         lttr=''
         
-        tag=False
-       # for i in text:
-        #    if i in ('<','>'):
-         #       tag=not tag
-#                continue
- #           if tag==True:
-  #              continue
-   #         change+=i
+        
+       
         self.champ=champ 
         
         stop_idx=0
@@ -41,7 +35,7 @@ class ChampStat(object):
                 stop_idx=i
                 break
         change=change[stop_idx:]
-        print(change)
+        
         jump=0
         if 'reduced' in change:
             change=change[9:]
@@ -67,12 +61,12 @@ class ChampStat(object):
         for i in version.split('.'):
             if not i.isnumeric():
                 end=''
-               # print(i)
+               
                 
                 for j in i:
                     if j in ('(',')'):
                         continue
-                    #print(j,end) 
+                    
                     if j.isalpha():
                         self.vers.append(int(end))
                       
@@ -80,14 +74,13 @@ class ChampStat(object):
                         
                     
                     end+=j 
-                #print(end+'a')    
+                   
                 self.vers.append(end)    
             else:
                 self.vers.append(int(i))
         if (self.val)=='':
             print('broken')
-        #self.val=int(self.val)
-        #self.previous=int(self.previous)
+        
     def __eq__(self,other):
         
         return self.vers==other.vers
@@ -147,8 +140,7 @@ class ChampStat(object):
         return svl>=ovl
     def __str__(self):
         return str(self.vers)
-    #patch_id=patch number, champion name, number
-    #stat,patch,difference,previous
+ 
     def getData(self):
         data={}
         data['stat_id']=self.type
