@@ -74,7 +74,7 @@ def scrape():
                         stats.append(stat)
                         
                 
-                print(site+url)
+                
                 stat_tags.append(tag)
                 
 
