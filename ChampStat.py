@@ -1,3 +1,4 @@
+#puts the date into an sql format
 def formatDate(date):
     date=date.split()
     months=['January','February','March','April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -13,20 +14,27 @@ def formatDate(date):
         day='0'+day
     return year+month+day
     
-    
-class ChampStat(object):
+#stores all the relevant data about a stat change    
+class ChampStat(object):    
     def __init__(self,champ,text,version,date):
         
         self.date=formatDate(date)
         self.type=''
         lttr=''
         
-        
-       
+        tag=False
+       # for i in text:
+        #    if i in ('<','>'):
+         #       tag=not tag
+#                continue
+ #           if tag==True:
+  #              continue
+   #         change+=i
         self.champ=champ 
         
         stop_idx=0
         change=text.strip('.\n')
+       #gets the stat name
         for i in range(len(change)):
             if change[i:i+4] not in (' inc',' red',' dec'):
                self.type+=change[i]
@@ -35,7 +43,7 @@ class ChampStat(object):
                 stop_idx=i
                 break
         change=change[stop_idx:]
-        
+        print(change)
         jump=0
         if 'reduced' in change:
             change=change[9:]
@@ -47,7 +55,7 @@ class ChampStat(object):
             change=change[3:]
         self.previous=''
         self.val=''
-        
+        #gets the new value of the stat
         for i in range(len(change)):
             lttr=change[i]
             if lttr==' ':
@@ -58,15 +66,16 @@ class ChampStat(object):
         
         
         self.vers=[]
+        #splits the patch number into a list for comparison
         for i in version.split('.'):
             if not i.isnumeric():
                 end=''
-               
+               # print(i)
                 
                 for j in i:
                     if j in ('(',')'):
                         continue
-                    
+                    #print(j,end) 
                     if j.isalpha():
                         self.vers.append(int(end))
                       
@@ -74,13 +83,16 @@ class ChampStat(object):
                         
                     
                     end+=j 
-                   
+                #print(end+'a')    
                 self.vers.append(end)    
             else:
                 self.vers.append(int(i))
         if (self.val)=='':
             print('broken')
-        
+        #self.val=int(self.val)
+        #self.previous=int(self.previous)
+   #comparisons
+   
     def __eq__(self,other):
         
         return self.vers==other.vers
@@ -138,9 +150,10 @@ class ChampStat(object):
             return ov[j]>sv[j]
             
         return svl>=ovl
+   #returns string version of the version list 
     def __str__(self):
         return str(self.vers)
- 
+    #returns dictionary of all the attributes and their values
     def getData(self):
         data={}
         data['stat_id']=self.type
