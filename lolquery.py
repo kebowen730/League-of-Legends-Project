@@ -20,14 +20,23 @@
  # CONSTRAINT pk_character PRIMARY KEY (character_name)
 #);
 
-
 #CREATE TABLE Statistic
 #( stat_id VARCHAR(40) NOT NULL,
+ # type VARCHAR(20) NOT NULL,
+ # description VARCHAR(60) NOT NULL,
+ # CONSTRAINT pk_stat PRIMARY KEY (stat_id)
+ #);
+
+
+#CREATE TABLE StatChampPatch
+#( stat_id VARCHAR(40) NOT NULL,
  # patch_id VARCHAR(20) NOT NULL,
- # stat VARCHAR(50),
  # character_name VARCHAR(40) NOT NULL,
- # previous_stat VARCHAR(40),
- # CONSTRAINT pk_stat PRIMARY KEY (stat_id, patch_id, character_name),
+ # stat FLOAT(6, 3),
+ # previous_stat FLOAT(6, 3),
+ # CONSTRAINT pk_statchamppatch PRIMARY KEY (stat_id, patch_id, character_name),
+ # CONSTRAINT fk_stat FOREIGN KEY (stat_id)
+ #   REFERENCES Champion (stat_id),
  # CONSTRAINT fk_patch FOREIGN KEY (patch_id)
  #   REFERENCES Patch (patch_id),
  # CONSTRAINT fk_character FOREIGN KEY (character_name)
@@ -61,11 +70,17 @@ def insertChampion(character_name, date_added):
   if (cur.rowcount == 0):
     cur.execute('INSERT INTO Champion (character_name, date_added) VALUES (%s, %s)', (character_name, date_added))
     conn.commit()
-
-def insertStatistic(stat_id, patch_id, stat, character_name, previous_stat)
-  cur.execute('SELECT * FROM Statistic WHERE stat_id = %s AND patch_id = %s AND stat = %s AND character_name = %s AND previous_stat = %s',(stat_id, patch_id, stat, character_name, previous_stat))
+    
+def insertChampion(character_name, date_added):
+  cur.execute('SELECT * FROM Statistic WHERE stat_id = %s AND type = %s AND description = %s',(stat_id, type, description))
   if (cur.rowcount == 0):
-    cur.execute('INSERT INTO Statistic (stat_id, patch_id, stat, character_name, previous_stat) VALUES (%s, %s, %s, %s, %s)', (stat_id, patch_id, stat, character_name, previous_stat))
+    cur.execute('INSERT INTO Statistic (stat_id, type, description) VALUES (%s, %s, %s)', (stat_id, type, description))
+    conn.commit()
+
+def insertStatChampPatch(stat_id, patch_id, character_name, stat, previous_stat)
+  cur.execute('SELECT * FROM StatChampPatch WHERE stat_id = %s AND patch_id = %s AND character_name = %s AND stat = %s AND previous_stat = %s',(stat_id, patch_id, character_name, stat, previous_stat))
+  if (cur.rowcount == 0):
+    cur.execute('INSERT INTO StatChampPatch (stat_id, patch_id, character_name, stat, previous_stat) VALUES (%s, %s, %s, %s, %s)', (stat_id, patch_id, character_name, stat, previous_stat))
     conn.commit()
 '''
 
