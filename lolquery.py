@@ -36,7 +36,7 @@
  # previous_stat FLOAT(6, 3),
  # CONSTRAINT pk_statchamppatch PRIMARY KEY (stat_id, patch_id, character_name),
  # CONSTRAINT fk_stat FOREIGN KEY (stat_id)
- #   REFERENCES Champion (stat_id),
+ #   REFERENCES Statistic (stat_id),
  # CONSTRAINT fk_patch FOREIGN KEY (patch_id)
  #   REFERENCES Patch (patch_id),
  # CONSTRAINT fk_character FOREIGN KEY (character_name)
