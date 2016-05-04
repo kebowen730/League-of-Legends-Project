@@ -110,6 +110,24 @@ class ChampStat(object):
         if (self.val)=='':
             print('broken')
             print(self.getData())
+        floatable=False
+        while floatable==False:
+            try:
+                float(self.val)
+                floatable=True
+            except ValueError:
+                self.val=self.val[:len(self.val)-1]
+            if self.val=='':
+                x=version[len(version)]
+        floatable=False
+        while floatable==False:
+            try:
+                float(self.previous)
+                floatable=True
+            except ValueError:
+                self.previous=self.previous[:len(self.previous)-1]
+            if self.previous=='':
+                x=version[len(version)]
         #self.val=int(self.val)
         #self.previous=int(self.previous)
     def formatID(self,stat_id):
@@ -217,7 +235,7 @@ class ChampStat(object):
         data={}
         data['stat_id']=self.type
         data['champ_id']=self.champ
-        data['stat']=self.val
+        data['stat']=float(self.val)
         
         vers=self.vers
         patch_id='V'+str(vers[0])
@@ -230,5 +248,5 @@ class ChampStat(object):
                 
         data['patch_id']=patch_id
         data['patch_date']=self.date
-        data['previous']=self.previous
+        data['previous']=float(self.previous)
         return data
