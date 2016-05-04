@@ -11,7 +11,7 @@ def is_number(val):
         return False
 def scrape():
     html=urlopen('http://leagueoflegends.wikia.com/wiki/Patch')
-    soup=BeautifulSoup(html,'lxml')
+    soup=BeautifulSoup(html)
     site='http://leagueoflegends.wikia.com/wiki/'
     table=soup.find('table',{'class':'navbox hlist'})
     info=table.findAll('a')
@@ -30,7 +30,7 @@ def scrape():
     count=0
     for url in links:
         html=urlopen(site+url)
-        patch=BeautifulSoup(html,'lxml')
+        patch=BeautifulSoup(html')
         
         li_tags=patch.findAll('li') 
         vers='6'
