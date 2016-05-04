@@ -184,14 +184,6 @@ def scrape():
                 add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':float(stat.text[:]), 'stat_id':'Range'})
         i+=1
     stat_data=stat_data+add_stats
-  #      statdata[i]['previous']=None
-   #     sdict=statdata[i]
-    #    for j in range(i-1,-1,-1):
-     #       if sdict['stat_id']==statdata[j]['stat_id'] and sdict['champ_id']==statdata[j]['champ_id']:
-      #          statdata[i]['previous']=statdata[j]['stat']
-       #        
-        #        break
-        #if statdata[i]['previous']==None:
-         #   statdata[i]['previous']=statdata[i]['stat']
+
             
     return stat_data
