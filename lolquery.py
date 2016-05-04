@@ -20,23 +20,15 @@
  # CONSTRAINT pk_character PRIMARY KEY (character_name)
 #);
 
+
+
 #CREATE TABLE Statistic
-#( stat_id VARCHAR(40) NOT NULL,
- # type VARCHAR(20) NOT NULL,
- # description VARCHAR(60) NOT NULL,
- # CONSTRAINT pk_stat PRIMARY KEY (stat_id)
- #);
-
-
-#CREATE TABLE StatChampPatch
 #( stat_id VARCHAR(40) NOT NULL,
  # patch_id VARCHAR(20) NOT NULL,
  # character_name VARCHAR(40) NOT NULL,
  # stat FLOAT(6, 3),
  # previous_stat FLOAT(6, 3),
  # CONSTRAINT pk_statchamppatch PRIMARY KEY (stat_id, patch_id, character_name),
- # CONSTRAINT fk_stat FOREIGN KEY (stat_id)
- #   REFERENCES Statistic (stat_id),
  # CONSTRAINT fk_patch FOREIGN KEY (patch_id)
  #   REFERENCES Patch (patch_id),
  # CONSTRAINT fk_character FOREIGN KEY (character_name)
