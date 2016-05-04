@@ -6,13 +6,7 @@ class ChampStat(object):
         lttr=''
         
         tag=False
-       # for i in text:
-        #    if i in ('<','>'):
-         #       tag=not tag
-#                continue
- #           if tag==True:
-  #              continue
-   #         change+=i
+
         if 'Thresh' in champ:
             self.champ='Thresh'
         elif champ=='Leblanc':
@@ -44,9 +38,7 @@ class ChampStat(object):
                 break
         
         self.type=self.formatID(self.type)       
-  #      if 'resistance' in self.type:
-   #         type=''
-    #        for i in self.type
+
         change=change[stop_idx:]
         
         change=change[1:]
@@ -74,10 +66,7 @@ class ChampStat(object):
                 if '0.625' in self.previous:
                     self.previous='0.625'
                 
-                #while j!=chars_left and change[j] not in (' ','.')   :
-                 #   self.previous+=change[j]
-                  #  j+=1
-                #print(self.previous,version,self.champ)
+              
                 break
             else:
                 self.val+=lttr
@@ -90,12 +79,12 @@ class ChampStat(object):
         for i in version.split('.'):
             if not i.isnumeric():
                 end=''
-               # print(i)
+              
                 
                 for j in i:
                     if j in ('(',')'):
                         continue
-                    #print(j,end) 
+                   
                     if j.isalpha():
                         self.vers.append(int(end))
                       
@@ -103,13 +92,11 @@ class ChampStat(object):
                         
                     
                     end+=j 
-                #print(end+'a')    
+ 
                 self.vers.append(end)    
             else:
                 self.vers.append(int(i))
-        if (self.val)=='':
-            print('broken')
-            print(self.getData())
+
         floatable=False
         while floatable==False:
             try:
@@ -128,8 +115,7 @@ class ChampStat(object):
                 self.previous=self.previous[:len(self.previous)-1]
             if self.previous=='':
                 x=version[len(version)]
-        #self.val=int(self.val)
-        #self.previous=int(self.previous)
+ 
     def formatID(self,stat_id):
         if 'ana regen' in stat_id:
             return 'Mana regeneration'
@@ -151,8 +137,7 @@ class ChampStat(object):
             return 'Attack range'
         if 'ase man' in stat_id:
             return 'Mana'
-        #x=[]
-        #y=x[1]
+
         return stat_id
     def formatDate(self,date):
         date=date.split()
@@ -229,8 +214,7 @@ class ChampStat(object):
         return svl>=ovl
     def __str__(self):
         return str(self.vers)
-    #patch_id=patch number, champion name, number
-    #stat,patch,difference,previous
+
     def getData(self):
         data={}
         data['stat_id']=self.type
