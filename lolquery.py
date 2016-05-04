@@ -28,11 +28,11 @@
  # character_name VARCHAR(40) NOT NULL,
  # stat FLOAT(6, 3),
  # previous_stat FLOAT(6, 3),
- # CONSTRAINT pk_statchamppatch PRIMARY KEY (stat_id, patch_id, character_name),
+ # CONSTRAINT pk_statistic PRIMARY KEY (stat_id, patch_id, character_name),
  # CONSTRAINT fk_patch FOREIGN KEY (patch_id)
  #   REFERENCES Patch (patch_id),
  # CONSTRAINT fk_character FOREIGN KEY (character_name)
- #   REFERENCES Champion (character_name),
+ #   REFERENCES Champion (character_name)
 #);
 
 
