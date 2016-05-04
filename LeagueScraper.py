@@ -25,7 +25,7 @@ def scrape():
             continue
         if title[0]=='V' and title[1] in versions:
             links.append(title)
-    #stat_names==['armor','health','health_regeneration','attack_damage']
+    
     stats=[]
     count=0
     for url in links:
