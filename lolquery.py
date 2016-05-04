@@ -43,14 +43,13 @@
 
 
 
-
 import pymysql
 
 conn = pymysql.connect(host = '127.0.0.1', user = 'lrngsql', passwd = 'rdg935', db = 'mysql')
 cur = conn.cursor()
 cur.execute('USE League')
 
-'''
+
 def insertPatch(patch_id, patch_date):
   cur.execute('SELECT * FROM Patch WHERE patch_id = %s AND patch_date = %s',(patch_id, patch_date))
   if (cur.rowcount == 0):
@@ -62,29 +61,21 @@ def insertChampion(character_name, date_added):
   if (cur.rowcount == 0):
     cur.execute('INSERT INTO Champion (character_name, date_added) VALUES (%s, %s)', (character_name, date_added))
     conn.commit()
-    
-def insertChampion(character_name, date_added):
-  cur.execute('SELECT * FROM Statistic WHERE stat_id = %s AND type = %s AND description = %s',(stat_id, type, description))
+
+def insertStatistic(stat_id, patch_id, stat, character_name, previous_stat):
+  cur.execute('SELECT * FROM Statistic WHERE stat_id = %s AND patch_id = %s AND stat = %s AND character_name = %s AND previous_stat = %s',(stat_id, patch_id, stat, character_name, previous_stat))
   if (cur.rowcount == 0):
-    cur.execute('INSERT INTO Statistic (stat_id, type, description) VALUES (%s, %s, %s)', (stat_id, type, description))
+    cur.execute('INSERT INTO Statistic (stat_id, patch_id, stat, character_name, previous_stat) VALUES (%s, %s, %s, %s, %s)', (stat_id, patch_id, stat, character_name, previous_stat))
     conn.commit()
-
-def insertStatChampPatch(stat_id, patch_id, character_name, stat, previous_stat)
-  cur.execute('SELECT * FROM StatChampPatch WHERE stat_id = %s AND patch_id = %s AND character_name = %s AND stat = %s AND previous_stat = %s',(stat_id, patch_id, character_name, stat, previous_stat))
-  if (cur.rowcount == 0):
-    cur.execute('INSERT INTO StatChampPatch (stat_id, patch_id, character_name, stat, previous_stat) VALUES (%s, %s, %s, %s, %s)', (stat_id, patch_id, character_name, stat, previous_stat))
-    conn.commit()
-'''
-
-
 
 
 def stat_hist(name):
 
-  cur.execute('SELECT patch_id, stat FROM Statistic WHERE character_name = %s ORDER BY patch_id', (name))
+  cur.execute('SELECT patch_id, stat_id, stat FROM Statistic WHERE character_name = %s ORDER BY patch_id', (name))
   for i in range(0, (cur.rowcount)):
     print(cur.fetchone())
   if (cur.rowcount == 0):
+    print('\n')
     print('None')
 
 def patch_date(lower, upper):
@@ -93,6 +84,7 @@ def patch_date(lower, upper):
   for i in range(0, (cur.rowcount)):
     print(cur.fetchone())
   if (cur.rowcount == 0):
+    print('\n')
     print('None')
 
 def char_date(lower, upper):
@@ -100,27 +92,39 @@ def char_date(lower, upper):
   for i in range(0, (cur.rowcount)):
     print(cur.fetchone())
   if (cur.rowcount == 0):
+    print('\n')
     print('None')
 
 def stat_patch(p_id):
-  cur.execute('SELECT character_name, stat FROM Statistic WHERE patch_id = %s', (p_id))
+  cur.execute('SELECT character_name, stat_id, stat FROM Statistic WHERE patch_id = %s', (p_id))
   for i in range(0, (cur.rowcount)):
     print(cur.fetchone())
   if (cur.rowcount == 0):
+    print('\n')
     print('None')
 
 def find_charchange(name, change):
-  cur.execute('SELECT patch_id FROM Statistic WHERE character_name = %s AND stat = %s', (name, change))
+  cur.execute('SELECT patch_id FROM Statistic WHERE character_name = %s AND stat_id = %s', (name, change))
   for i in range(0, (cur.rowcount)):
     print(cur.fetchone())
   if (cur.rowcount == 0):
+    print('\n')
     print('None')
 
 def find_change(change):
-  cur.execute('SELECT character_name, patch_id FROM Statistic wHERE stat = %s ORDER BY patch_id', (change))
+  cur.execute('SELECT character_name, patch_id FROM Statistic wHERE stat_id = %s ORDER BY patch_id', (change))
   for i in range(0, (cur.rowcount)):
     print(cur.fetchone())
   if (cur.rowcount == 0):
+    print('\n')
+    print('None')
+
+def stat_diff(stat_id, patch_id, character_name):
+  cur.execute('SELECT (stat - previous_stat) FROM Statistic WHERE stat_id = %s AND patch_id = %s AND character_name = %s', (stat_id, patch_id, character_name))
+  for i in range(0, (cur.rowcount)):
+    print(cur.fetchone())
+  if (cur.rowcount == 0):
+    print('\n')
     print('None')
 
 def show_patch():
@@ -137,16 +141,20 @@ def main():
 
   print("Enter 1 to view an individual champion's history of changes over all patches\n")
   print('Enter 2 to look up a range of patch ids in a given time interval\n')
-  print('Enter 3 to look up a range of the characters that were added to the game in a given time interval\n')
+  print('Enter 3 to look up a range of champions that were added to the game in a given time interval\n')
   print('Enter 4 to view all statistic changes from a specific patch\n')
-  print('Enter 5 to find a patch where a given change to a certain champion occurred\n')
-  print('Enter 6 to for a given stat change, find all champions that received the change and the patch in which it occurred\n')
-  print('Enter 7 to show the Patch Table\n')
-  print('Enter 8 to show the Champion Table\n')
+  print('Enter 5 to find a patch where a given statistic to a certain champion was changed\n')
+  print('Enter 6 to find all champions that had a given statistic altered and the patch in which it occurred\n')
+  print("Enter 7 to look up the numeric difference of a champion's stat that occured in a patch\n")
+  print('Enter 8 to show the Patch Table\n')
+  print('Enter 9 to show the Champion Table\n')
   print('Enter 0 to quit\n')
+
 
   prompt = eval(input('Enter desired query: '))
   while (prompt != 0):
+    print('\n')
+
     if (prompt == 1):
       name = input('Enter name of champion: ')
       stat_hist(name)
@@ -173,13 +181,20 @@ def main():
     if (prompt == 6):
       change = input('Enter desired change: ')
       find_change(change)
-      
+
     if (prompt == 7):
-      show_patch()
+      stat_id = input('Enter stat: ')
+      patch = input('Enter patch number: ')
+      name = input('Enter name of champion: ')
+      stat_diff(stat_id, patch, name)
 
     if (prompt == 8):
+      show_patch()
+
+    if (prompt == 9):
       show_champion()
-      
+
+    print('\n')
     prompt = eval(input('Enter desired query: '))
 
 
