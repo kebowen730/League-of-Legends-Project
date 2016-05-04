@@ -27,7 +27,7 @@ class ChampStat(object):
             self.champ='Master Yi'
         elif 'Xerath' in champ:
             self.champ='Xerath'
-        elif 'soldiers' in champ or 'Voidspawn' in champ or 'Gromp' in champ:
+        elif 'soldiers' in champ or 'Voidspawn' in champ or 'Gromp' in champ or 'uto' in self.type:
             x=champ[len(champ)]
           
         else:
