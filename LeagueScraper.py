@@ -28,7 +28,7 @@ def scrape():
     
     stats=[]
     count=0
-    for url in links:
+    for url in links:# checks urls for relevant data and adds ChampStat object to list if found
         html=urlopen(site+url)
         patch=BeautifulSoup(html, 'lxml')
         
