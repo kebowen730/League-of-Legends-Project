@@ -30,7 +30,7 @@ def scrape():
     count=0
     for url in links:
         html=urlopen(site+url)
-        patch=BeautifulSoup(html')
+        patch=BeautifulSoup(html)
         
         li_tags=patch.findAll('li') 
         vers='6'
