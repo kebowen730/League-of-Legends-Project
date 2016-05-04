@@ -11,7 +11,7 @@ def is_number(val):
         return False
 def scrape():
     html=urlopen('http://leagueoflegends.wikia.com/wiki/Patch')
-    soup=BeautifulSoup(html)
+    soup=BeautifulSoup(html, 'lxml')
     site='http://leagueoflegends.wikia.com/wiki/'
     table=soup.find('table',{'class':'navbox hlist'})
     info=table.findAll('a')
@@ -30,7 +30,7 @@ def scrape():
     count=0
     for url in links:
         html=urlopen(site+url)
-        patch=BeautifulSoup(html)
+        patch=BeautifulSoup(html, 'lxml')
         
         li_tags=patch.findAll('li') 
         vers='6'
@@ -123,7 +123,7 @@ def scrape():
             ch_id='LeBlanc'
         if (i['champ_id'],i['stat_id']) not in checklist:
             
-            add_stats.append({'champ_id':ch_id, 'patch_id':'0','patch_date':champ_dates[ch_id],'previous':None,'stat':i['previous'], 'stat_id':st_id})
+            add_stats.append({'champ_id':ch_id, 'patch_id':'V1','patch_date':'2009-09-11','previous':None,'stat':i['previous'], 'stat_id':st_id})
             checklist.append((i['champ_id'],i['stat_id']))
     i=0
     var_tup=()
@@ -136,52 +136,52 @@ def scrape():
             var_tup=(name,'Health')
             if var_tup not in checklist:
                 checklist.append(var_tup)
-                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':stat.text[:], 'stat_id':'Health'})
+                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':float(stat.text[:]), 'stat_id':'Health'})
         if i%19==3:
             var_tup=(name,'Health Regeneration')
             if var_tup not in checklist:
                 checklist.append(var_tup)
-                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':stat.text[:], 'stat_id':'Health Regeneration'})
+                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':float(stat.text[:]), 'stat_id':'Health Regeneration'})
         if i%19==5:
             var_tup=(name,'Mana')
             if var_tup not in checklist:
                 checklist.append(var_tup)
-                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':stat.text[:], 'stat_id':'Mana'})
+                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':float(stat.text[:]), 'stat_id':'Mana'})
         if i%19==7:
             var_tup=(name,'Health')
             if var_tup not in checklist:
                 checklist.append(var_tup)
-                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':stat.text[:], 'stat_id':'Mana regeneration'})
+                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':float(stat.text[:]), 'stat_id':'Mana regeneration'})
         if i%19==9:
             var_tup=(name,'Attack damage')
             if var_tup not in checklist:
                 checklist.append(var_tup)
-                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':stat.text[:], 'stat_id':'Attack damage'})
+                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':float(stat.text[:]), 'stat_id':'Attack damage'})
         if i%19==11:
             var_tup=(name,'Attack speed')
             if var_tup not in checklist:
                 checklist.append(var_tup)
-                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':stat.text[:], 'stat_id':'Attack speed'})
+                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':float(stat.text[:]), 'stat_id':'Attack speed'})
         if i%19==13:
             var_tup=(name,'Armor')
             if var_tup not in checklist:
                 checklist.append(var_tup)
-                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':stat.text[:], 'stat_id':'Armor'})
+                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':float(stat.text[:]), 'stat_id':'Armor'})
         if i%19==15:
             var_tup=(name,'Magic resistance')
             if var_tup not in checklist:
                 checklist.append(var_tup)
-                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':stat.text[:], 'stat_id':'Magic resistance'})
+                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':float(stat.text[:]), 'stat_id':'Magic resistance'})
         if i%19==17:
             var_tup=(name,'Movement speed')
             if var_tup not in checklist:
                 checklist.append(var_tup)
-                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':stat.text[:], 'stat_id':'Movement speed'})
+                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':float(stat.text[:]), 'stat_id':'Movement speed'})
         if i%19==18:
             var_tup=(name,'Range')
             if var_tup not in checklist:
                 checklist.append(var_tup)
-                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':stat.text[:], 'stat_id':'Range'})
+                add_stats.append({'champ_id':name, 'patch_id':'0','patch_date':champ_dates[name],'previous':None,'stat':float(stat.text[:]), 'stat_id':'Range'})
         i+=1
     stat_data=stat_data+add_stats
   #      statdata[i]['previous']=None
